@@ -40,7 +40,7 @@ In addition, a strange issue with the firmware drivers on many laptops prevents 
 *I apologize in advance for the lack of photos in this section.*
 
 4. Navigate to the "Advanced" tab at the top and choose "Boot Options," then deselect "Network (PXE) Boot" if it's enabled.
-5. Go to the "Security" tab, select "Secure Boot Configuration," then uncheck "Secure Boot."
+5. Go to the "Security" tab, select "Secure Boot Configuration," then uncheck "Secure Boot." (NOTE: Try going throught the reset of the steps before disabling secure boot. If you actually need to change this setting, it should be pretty obvious because it'll say something like "Security policy violation." Otherwise, you'll likely run into issue with the BitLocker encryption on the drive.)
 6. Go back to the "Main" tab, then choose "Save Changes and Exit."
 
 ## Reinstalling Windows
