@@ -1,65 +1,137 @@
 # Windows Reinstall Guide
+
 ## Key Terms
 
-- BIOS (Basic Input/Output System): Tells your computer how to operate; essentially a very low-level settings menu for your computer.
-- UEFI (Unified Extensible Firmware Interface) Settings: A more modern version of BIOS. As far as HP devices are concerned, they should be literally the same but with different UI styles.
-- Boot Order: Controls which device the operating system is loaded from. In this case, we will boot onto a flash drive.
-- Secure Boot: A security feature that ensures the computer doesn't boot into malicious software. It comes with the drawback of occasionally preventing us from booting into a Windows installer.
-- Network Boot: The process of booting a computer from the network rather than a drive. This must also be disabled to ensure we boot into the drive properly (or at least ensure it isn't prioritized).
-- Installation Media: In this case, the bootable USB is used to reinstall Windows.
-- Disk Partitions: A partition is a logical division of a drive. They are useful for installing multiple operating systems. Most of the time, if you are only reinstalling Windows (with a single drive installed), you delete all of your drive partitions and create a new one to install Windows on after formatting.
+- **BIOS (Basic Input/Output System):** Tells your computer how to operate; a low-level settings menu for hardware initialization.
+- **UEFI (Unified Extensible Firmware Interface):** Modern replacement for BIOS. On HP devices, it appears similar but with a different UI.
+- **Boot Order:** Determines which device the system boots from. We will set this to a USB drive.
+- **Secure Boot:** Security feature that prevents unauthorized operating systems from booting. May block installation media in some cases.
+- **Network Boot (PXE):** Boots from the network instead of a drive. Should be disabled or deprioritized.
+- **Installation Media:** A bootable USB drive used to install Windows.
+- **Disk Partitions:** Logical sections of a drive. Used to install or separate operating systems.
+
+---
 
 ## Preparing Your Bootable Flash Drive
 
-1. Visit the [Windows 11 download site](https://www.microsoft.com/software-download/windows11) (Alternatively visit the [Windows 10 download site](https://www.microsoft.com/software-download/windows10)) and select the "Download Now" button under "Create Windows Installation Media."
-2. **MAKE SURE THAT YOU HAVE MOVED EVERYTHING YOU NEED FROM THE FLASH DRIVE BEFORE PROCEEDING.***
-3. Accept the privacy policy, use the recommended settings, select "USB Flash Drive," and click on your flash drive (**This step may need to be completed using a separate computer with admin access if it asks for a password when running on your laptop.**)
-4. Once the setup is done, you should see a few files added to your drive. If you didn't see your drive in the list, or it seems empty, there was likely some issue with your drive. The most common fix is to format the drive by right-clicking it and selecting "format drive."
+1. Visit the Windows download page:
+   - https://www.microsoft.com/software-download/windows11  
+   - https://www.microsoft.com/software-download/windows10  
+2. Click **Download Now** under “Create Windows Installation Media.”
+3. **Make sure you back up your USB drive first. Everything on it will be erased.**
+4. Run the tool:
+   - Accept the license agreement
+   - Select **“Create installation media (USB flash drive)”**
+   - Choose your flash drive
 
-## Preparing Your Computer
+   (You may need another computer with admin access depending on permissions.)
+5. After completion, verify the USB contains Windows installation files. If not, reformat the drive and retry.
 
-*NOTE: My memory is honestly a little fuzzy, so I'm not certain if it will boot you into the Windows start menu or the HP (mobo manufacturer) boot menu. Look at the note after step 3 if you boot into a white menu rather than a blue menu.*
+---
 
-In addition, a strange issue with the firmware drivers on many laptops prevents the use of the trackpad or Wi-Fi during setup, so you may need to plug into Ethernet or use a mouse. If you don't have Ethernet, it's possible to start up Windows and a Microsoft Account, so you don't need any connection. If you don't have a mouse, use the tab key to navigate to the next field, Shift + Tab to go the previous field, the arrows keys to move within each field, and the enter key to select an option (there is one checkbox field that you have to use the space key to select).
+## Preparing Your Computer (HP Example)
 
-1. **Move all of your files before reinstalling because your computer will be completely wiped. You will have to reinstall all of your apps after the installation.**
-2. Boot into your computer's start menu by holding shift and clicking the restart button. (This should bring you to the menu automatically, but for good measure, hit the escape key while your computer is restarting).
+> BIOS keys vary by manufacturer:
+- HP: `Esc` then `F10`
+- Dell: `F2`
+- Lenovo: `F1` or `F2`
+- ASUS: `F2` or `Delete`
 
-<img src="../Images/Restart.png" alt="restart" width="500"/>
+1. **Back up your files. This process will completely wipe your system.**
+2. Enter recovery mode:
 
-3. You should boot into a menu that looks like the one below. Select the "Troubleshoot" option, then choose "UEFI Firmware Settings" and "Restart."
+   - Hold **Shift + Restart**
 
-<img src="../Images/StartMenu.png" alt="startmenu" width="500"/>
+   <img src="../Images/Restart.png" alt="restart" width="500"/>
+   
+4. Navigate:
 
-<img src="../Images/AdvancedOptions.png" alt="advancedoptions" width="500"/>
+   - Troubleshoot → Advanced Options → UEFI Firmware Settings → Restart
 
-***NOTE***: If you boot into the menu below instead, you can simply select "BIOS Setup" to access the UEFI/BIOS settings.
+   <img src="../Images/StartMenu.png" alt="startmenu" width="500"/>
 
-<img src="../Images/BootMenu.png" alt="bootmenu" width="500"/>
+   <img src="../Images/AdvancedOptions.png" alt="advancedoptions" width="500"/>
 
-*I apologize in advance for the lack of photos in this section.*
+   If you see a boot menu instead.
+   
+   <img src="../Images/BootMenu.png" alt="bootmenu" width="500"/>
 
-4. Navigate to the "Advanced" tab at the top and choose "Boot Options," then deselect "Network (PXE) Boot" if it's enabled.
-5. Go to the "Security" tab, select "Secure Boot Configuration," then uncheck "Secure Boot." (NOTE: Try going throught the reset of the steps before disabling secure boot. If you actually need to change this setting, it should be pretty obvious because it'll say something like "Security policy violation." Otherwise, you'll likely run into issue with the BitLocker encryption on the drive.)
-6. Go back to the "Main" tab, then choose "Save Changes and Exit."
+   You can select **BIOS Setup** directly.
+6. In BIOS/UEFI:
+   - Go to **Advanced → Boot Options**
+   - Disable **Network (PXE) Boot**
+7. Go to **Security → Secure Boot Configuration**
+   - Disable Secure Boot only if required (e.g., “Security policy violation” errors or BitLocker issues)
+8. Save changes and exit.
+
+---
 
 ## Reinstalling Windows
 
-1. You should now be able to repeat [steps 1 and 2 from the previous section](#preparing-your-computer), then choose "Boot Menu" or "Use a device" to boot into your USB flash drive (just select the option that looks to have a matching name with your flash drive).
-2. You should now see a menu that looks like the image below. Go through all of the installation steps (refer to the movement key bindings at the top of the [previous section](#preparing-your-computer)).
-<img src="../Images/WindowsInstallationMedia.png" alt="windowsinstallationmedia" width="500"/>
-3. When asked for a product key, skip it by saying you will enter one later. Afterward, on the privacy policy page with a checkbox, either use a mouse to check the box or hit tab until you are focusing on the checkbox field and hit space.
-4. Select custom install and delete every partition (if you have other operating systems installed or multiple drives, this step will look a little different for you, but hopefully, you already understand how to work with disk partitions).
-5. Create a new partition by selecting "New" and clicking "Next."
-6. After waiting for the Windows installation, you should be asked to connect to a network. If you have access to Ethernet, continue to the login. Otherwise, you should be able to skip the connection and continue to the operating system without a connection.
+1. Reboot and enter boot menu:
+   - On HP: press `Esc`, then select Boot Menu
+   - Choose your USB drive
+2. Windows installer should appear:
 
-## Fixing Touchpad and Wi-Fi Drivers
+   <img src="../Images/WindowsInstallationMedia.png" alt="windowsinstallationmedia" width="500"/>
+3. Installation steps:
+   - Select language and region
+   - Click Install
+   - When asked for a product key, select **“I don’t have a product key”**
 
-There are two ways to fix being unable to use your trackpad or Wi-Fi. The first requires you to install drivers on a separate computer with access to internet, transferring it to a flash drive, then transferring and running the driver installation files on your laptop.
+   You can obtain activation keys here if needed:
+   https://massgrave.dev/
+4. **Offline installation (no Wi-Fi required):**
+   - Press **Shift + F10**
+   - Type:
+     ```
+     OOBE\BYPASSNRO
+     ```
+   - Press Enter
+   - The system will restart and allow you to continue without internet
+5. Choose **Custom Install**
+6. **Partition setup:**
+   - Delete all partitions **except the USB drive**
+   - (If you have another OS you want to keep, do NOT delete its partition)
+   - Select the unallocated space
+   - Click **New → Apply → Next**
+7. Wait for Windows to install and reboot.
 
-***Offline Installation***
-Go to the HP [driver packs page](https://hpia.hpcloud.hp.com/downloads/driverpackcatalog/HP_Driverpack_Matrix_x64.html) on a separate device with an internet connection. Using Ctrl+F, find "HP ProBook 450 15.6 inch G10 Notebook PC." Choose the newest release version (24H2) for your corresponding operating system (Windows 10 or 11). Move the downloaded `.exe` file to your flash drive and transfer the file over to your laptop. Follow the installation instructions, and your issues should be fixed.  
-<img src="../Images/DriverPacks.png" alt="driverpacks"/>
+---
 
-***Installation With Internet Access***
-I found that the easiest way to install drivers with an internet connection (likely through Ethernet) is to go to the UEFI settings (refer to [Preparing Your Computer Steps 1-3](#preparing-your-computer)), go to the "Main" tab, select "Update System BIOS," then finally choose "Check HP.com for BIOS Updates." When it mentions that BitLocker has to be suspended, select "continue" and follow through with the driver installation. After the installation is complete, restart your computer, and everything should be fixed.
+## After Installation (Important)
+
+1. Connect to the internet (if not already connected).
+2. Run Windows Update:
+   - Settings → Windows Update → Check for updates
+   This will automatically install most drivers (Wi-Fi, chipset, touchpad, etc.).
+
+---
+
+## Fixing Touchpad and Wi-Fi Drivers (If Needed)
+
+If Windows Update does not install all drivers automatically, or if you are unable to connect to the internet after installation:
+
+1. First, try running:
+   - **Settings → Windows Update → Check for updates**
+   This will usually install most drivers automatically (Wi-Fi, Ethernet, chipset, touchpad, etc.).
+2. If you still cannot connect to the internet:
+   - You will need to manually install either the **Wi-Fi driver or Ethernet driver first** so you can get online
+   - Once internet access is restored, run **Windows Update** again to automatically install the remaining drivers
+3. If you need manufacturer driver packs as a fallback (example for HP laptops):
+   - HP Driver Pack Catalog:  
+     https://hpia.hpcloud.hp.com/downloads/driverpackcatalog/HP_Driverpack_Matrix_x64.html
+   - Example device (for reference only):  
+     **HP ProBook 450 15.6 inch G10 Notebook PC**
+4. Download the correct driver pack for your system version (Windows 10 or Windows 11), transfer it via USB, and install it.
+5. After internet access is restored, run Windows Update again to finish driver installation automatically.
+
+---
+
+## Notes
+
+- BIOS keys may differ depending on your device model.
+- Secure Boot usually does not need to be disabled unless installation errors occur.
+- Windows Update should be run immediately after installation for drivers.
+- Partition deletion is irreversible—double check before proceeding.
+- Avoid installing after a Linux distro since it will overwrite the bootloader, and require you to chroot into your system or use another technique to recover the ability to boot into Linux.
